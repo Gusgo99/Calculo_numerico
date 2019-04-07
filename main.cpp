@@ -13,8 +13,9 @@ int main() {
 	
 	for(auto i: intervalos) {
 		printf("Intervalo com zero: [%.2lf, %.2lf]\n", i.first, i.second);
-		//zeros.push_back(bisseccao(f, i, 1E-15));
+		zeros.push_back(bisseccao(f, i, 1E-15));
 		zeros.push_back(tangente(f, dfdx, i, 1E-15));
+		zeros.push_back(secante(f, i, 1E-2));
 		
 	}
 	

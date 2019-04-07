@@ -4,7 +4,7 @@
 // LIMite de ITeracoes
 const uint32_t LIMIT = 1000;
 
-//#define COMPARAR
+#define COMPARAR
 
 #include <list>
 #include <utility>
@@ -13,6 +13,7 @@ typedef std::pair<double, double> intervalo_t;
 
 // Vasculha o intervalor _I para encontrar intervalos que contenham zeros
 std::list<intervalo_t> encontra_intervalos(double (*f)(double), intervalo_t _I, double _step);
+
 // Metodo da bisseccao para aproximacao de zeros
 double bisseccao(double (*f)(double), intervalo_t _I, double _erro);
 // Metodo do ponto fixo para aproximacao de zeros

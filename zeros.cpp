@@ -1,3 +1,4 @@
+#include <array>
 #include <cmath>
 #include <iostream>
 
@@ -7,11 +8,14 @@ std::list<intervalo_t> encontra_intervalos(double (*f)(double), intervalo_t _I, 
 	std::list<intervalo_t> intZeros;
 	
 	for(auto i = _I.first; i < _I.second; i += _step) {
+		// Verifica se a funcao troca de sinal no interior do intervalo [i, i + _step]
 		if((f(i) * f(i + _step)) < 0) {
+			// Se ocorre troca de sinal, considera que o intervalo possui zero
 			intZeros.push_back({i, i + _step});
 			
 		}
 		else if(f(i) == 0) {
+			// Se a função for igual a zero no ponto i, adiciona um invervalo contendo somente o ponto do zero
 			intZeros.push_back({i, i});
 			
 		}
@@ -28,6 +32,7 @@ double bisseccao(double (*f)(double), intervalo_t _I, double _erro) {
 	if(f == nullptr) return nan("");
 	
 	while(fabs(_I.first - _I.second) > _erro) {
+		// Verifica de qual lado do intervalo o zero esta e corta o intervalo no meio
 		if((f(_I.first) * f(_med)) < 0) {
 			_I.second = _med;
 			
@@ -39,12 +44,13 @@ double bisseccao(double (*f)(double), intervalo_t _I, double _erro) {
 		
 		_med = (_I.second + _I.first) / 2;
 		
+		// Termina procura se o programa passar do limite de iteracoes
 		if(++count > LIMIT) break;
 		
 	}
 	
 #ifdef COMPARAR
-	printf("%i iteracoes pelo metodo da tangente\n", count);
+	printf("%i iteracoes pelo metodo da bisseccao\n", count);
 #endif
 	
 	return _med;
@@ -58,6 +64,7 @@ double ponto_fixo(double (*f)(double), double (*fi)(double), intervalo_t _I, dou
 	if(f == nullptr) return nan("");
 	
 	double _med = (_I.first + _I.second) / 2;
+	// Utiliza media dos valores para encontrar a extremidade do intervalo mais proximo do zero
 	if(fi(_med) > _med) {
 		_xn1 = _I.second;
 		
@@ -76,7 +83,7 @@ double ponto_fixo(double (*f)(double), double (*fi)(double), intervalo_t _I, dou
 	} while(fabs(_xn1 - _xn) > _erro);
 	
 #ifdef COMPARAR
-	printf("%i iteracoes pelo metodo da tangente\n", count);
+	printf("%i iteracoes pelo metodo do ponto fixo\n", count);
 #endif
 	
 	return _xn1;
@@ -86,11 +93,15 @@ double tangente(double (*f)(double), double (*dfdx)(double), intervalo_t _I, dou
 	double _xn, _xn1;
 	uint32_t count = 0;
 	
+	// Funcao iterativa:
+	auto fit = [&](double _x) {return _x - (f(_x) / dfdx(_x));};
+	
 	if(f == nullptr) return nan("");
 	if(dfdx == nullptr) return nan("");
 	
 	double _med = (_I.first + _I.second) / 2;
-	if(f(_xn - (f(_med) / dfdx(_med))) > _med) {
+	// Utiliza media dos valores para encontrar a extremidade do intervalo mais proximo do zero
+	if(f(fit(_med)) > _med) {
 		_xn1 = _I.second;
 		
 	}
@@ -100,8 +111,9 @@ double tangente(double (*f)(double), double (*dfdx)(double), intervalo_t _I, dou
 	}
 	
 	do {
+		// Executa a funcao iterativa ate que o erro esteja de acordo com o desejado
 		_xn = _xn1;
-		_xn1 = _xn - (f(_xn) / dfdx(_xn));
+		_xn1 = fit(_xn);
 		
 		if(++count > LIMIT) break;
 		
@@ -115,6 +127,26 @@ double tangente(double (*f)(double), double (*dfdx)(double), intervalo_t _I, dou
 }
 
 double secante(double (*f)(double), intervalo_t _I, double _erro) {
+	std::array<double, 3> _xn = {_I.first, _I.second, 0};
+	uint32_t count = 0;
+	auto pos = 2;
 	
-	return 0.0;
+	// Funcao ITerativa:
+	auto fit = [&](double _x1, double _x2) {return ((_x1 * f(_x2)) - (_x2 * f(_x1))) / (f(_x2) - f(_x1));};
+	
+	if(f == nullptr) return nan("");
+	
+	// Executa a funcao iterativa ate que o erro esteja de acordo com o desejado
+	for(pos = 2; fabs(_xn[(pos + 1) % 3] - _xn[(pos + 2) % 3]) > _erro; pos++) {
+		_xn[pos % 3] = fit(_xn[(pos + 1) % 3], _xn[(pos + 2) % 3]);
+		
+		if(++count > LIMIT) break;
+		
+	}
+	
+#ifdef COMPARAR
+	printf("%i iteracoes pelo metodo da secante\n", count);
+#endif
+	
+	return _xn[(pos + 2) % 3];
 }
