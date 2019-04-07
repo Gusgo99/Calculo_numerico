@@ -1,6 +1,11 @@
 #ifndef ZEROS_HPP
 #define ZEROS_HPP
 
+// LIMite de ITeracoes
+const uint32_t LIMIT = 1000;
+
+//#define COMPARAR
+
 #include <list>
 #include <utility>
 
