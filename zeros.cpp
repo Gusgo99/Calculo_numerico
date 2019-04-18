@@ -1,6 +1,5 @@
 #include <array>
 #include <cmath>
-#include <iostream>
 
 #include "zeros.hpp"
 
