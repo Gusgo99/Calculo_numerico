@@ -1,49 +1,30 @@
 #include <iostream>
 #include <cmath>
+#include <fstream>
 
-#include "zeros.hpp"
+#define STEP 1E-3
+#define Y0 0.0001
+#define X0 1.00
+#define X1 5.00
 
-// Funcao que se deseja encontrar o zero
-double f(double _x);
-double dfdx(double _x);
+#include "EDO.hpp"
+
+std::ofstream saida("data.dat");
+std::ofstream adad("data2.dat");
 
 int main() {
-	std::list<intervalo_t> intervalos = encontra_intervalos(f, {-1E5, 1E5}, 1);
-	std::list<double> zeros;
+	auto x = euler_EDO([](double _x, double _y) {return (pow(_x, 2)* exp(_x) + _y) / _x;}, {X0, X1}, Y0, STEP);
 	
-	for(auto i: intervalos) {
-		printf("Intervalo com zero: [%.2lf, %.2lf]\n", i.first, i.second);
-		zeros.push_back(bisseccao(f, i, 1E-15));
-		zeros.push_back(tangente(f, dfdx, i, 1E-15));
-		zeros.push_back(secante(f, i, 1E-2));
+	for(auto i = X0; i <= X1; i += STEP) {
+		saida << i << " " << x(i) << std::endl;
 		
 	}
 	
-	for(auto i: zeros) {
-		printf("Zeros encontrados: %.15lf\n", i);
+	for(auto i = X0; i <= X1; i += STEP) {
+		adad << i << " " << (i * exp(i)) << std::endl;
 		
 	}
+	printf("Programa finalizado.");
 	
 	return 0;
-}
-
-double f(double _x) {
-	return exp(_x) - (_x * _x) + 4;
-	//return (_x * _x) - (3 * _x) + 2;
-	//return (_x * _x) - 5;
-	//return (_x * _x) - 2;
-	//return (_x * _x) + _x - 6;
-	//return (_x * _x * _x) - (6 * _x * _x) + (11 * _x) - 6;
-	//return log(_x) * log(_x) - 15 * _x;
-}
-
-double dfdx(double _x) {
-	return exp(_x) - (2 * _x);
-	//return (2 * _x) - 3;
-	//return 2 * _x;
-	//return 2 * _x;
-	//return (2 * _x) + 1;
-	//return (3 * _x * _x) - (12 * _x) + 11;
-	//return ((2 * log(_x)) * (1 / _x)) - 15;
-	
 }
