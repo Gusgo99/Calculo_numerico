@@ -331,3 +331,14 @@ int gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>
 	
 	return EXIT_SUCCESS;
 }
+
+int gerar_grafico(std::string _nomeArquivo, std::function<double(std::vector<double>)> f, intervalo_t _I, double _step) {
+	std::list<std::pair<double, double>> _lista;
+	
+	for(auto i = _I.first; i < _I.second; i += _step) {
+		_lista.push_back(std::pair(i, f({i})));
+		
+	}
+	
+	return gerar_grafico(_nomeArquivo, _lista.begin(), _lista.end());
+}
