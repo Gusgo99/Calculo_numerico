@@ -5,6 +5,9 @@
 #include <queue>
 #include <stack>
 #include <utility>
+#include <fstream>
+
+#include <list>
 
 #include "mathio.hpp"
 
@@ -58,6 +61,16 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 	std::string _entrada;
 	int _numArgs = _vars.size();
 	int _prof = 0;					// Acumula quantos elementos a stack possui
+	
+	std::cout << "f(";
+	for(auto i = 0; i != _vars.size(); i++) {
+		std::cout << _vars[i];
+		if(i != (_vars.size() - 1)) {
+			std::cout << ", ";
+			
+		}
+	}
+	std::cout << ") = ";
 	
 	while(std::cin.peek() != '\n') {
 		// Descarta espacos: 
@@ -299,4 +312,22 @@ void operacao_stack(std::stack<double> *_pilha, uint64_t _op) {
 	}
 	
 	return;
+}
+
+int gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>::iterator _inicio, std::list<std::pair<double, double>>::iterator _fim) {
+	std::ofstream _arquivo(_nomeArquivo);
+	
+	if(_arquivo.is_open()) {
+		while(_inicio != _fim) {
+			_arquivo << _inicio -> first << "\t" << _inicio -> second << std::endl;
+			_inicio++;
+			
+		}
+	}
+	else {
+		return EXIT_FAILURE;
+		
+	}
+	
+	return EXIT_SUCCESS;
 }

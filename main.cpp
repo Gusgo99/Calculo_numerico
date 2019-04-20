@@ -1,18 +1,23 @@
 #include <iostream>
 #include <string>
+#include <list>
 
 #include "mathio.hpp"
 
+
 int main() {
-	printf("f(x, y) = ");
+	std::list<std::pair<double, double>> _dados;
 	
-	auto f = ler_funcao({"x", "y"});
+	auto f = ler_funcao({"x"});
 	
-	// Verifica se 
-	if(f != nullptr)
-		printf("f(1, 2) = %lf\n", f({1, 2}));
-	else
-		printf("You're dereferencing a null pointer. Open your eyes!\n");
+	for(auto i = 0.00; i < 50; i += 0.1) {
+		_dados.push_back(std::pair(i, f({i})));
+		
+	}
+	
+	gerar_grafico("dados.dat", _dados.begin(), _dados.end());
+	
+	printf("Graficos gerados.");
 	
 	return 0;
 }
