@@ -72,6 +72,9 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 	}
 	std::cout << ") = ";
 	
+	// Solucao temporaria:
+	fflush(stdin);
+	
 	while(std::cin.peek() != '\n') {
 		// Descarta espacos: 
 		if(std::cin.peek() == ' ') {

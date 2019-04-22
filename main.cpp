@@ -12,10 +12,13 @@ int main() {
 	
 	printf("Digite a EDO: ");
 	auto EDO = ler_funcao({"x", "y"});
+	
 	printf("Digite o intervalo([a, b]): ");
 	scanf(" [%lf, %lf]", &a, &b);
+	
 	printf("Digite o valor inicial(y0): ");
 	scanf(" %lf", &y0);
+	
 	printf("Digite a solucao: ");
 	auto solAna = ler_funcao({"x"});
 	
