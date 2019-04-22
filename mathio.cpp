@@ -338,7 +338,7 @@ int gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>
 int gerar_grafico(std::string _nomeArquivo, std::function<double(std::vector<double>)> f, intervalo_t _I, double _step) {
 	std::list<std::pair<double, double>> _lista;
 	
-	for(auto i = _I.first; i < _I.second; i += _step) {
+	for(auto i = _I.first; i <= _I.second; i += _step) {
 		_lista.push_back(std::pair(i, f({i})));
 		
 	}

@@ -1,0 +1,5 @@
+solNum <- read.table("C:\\dados\\solNum.dat")
+solAna <- read.table("C:\\dados\\solAna.dat")
+plot(solNum, type = 'l', col = 'red', xlab = 't', ylab = 'y=y(t)', main = 'Solucao')
+lines(solAna, col = 'blue')
+plot(erro, type = 'l', main = 'Erro', xlab = 't', ylab = 'E(t)')

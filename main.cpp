@@ -2,6 +2,8 @@
 #include <string>
 #include <list>
 
+const double STEP = 0.001;
+
 #include "EDO.hpp"
 #include "mathio.hpp"
 
@@ -22,13 +24,13 @@ int main() {
 	printf("Digite a solucao: ");
 	auto solAna = ler_funcao({"x"});
 	
-	auto solNum = euler_EDO([EDO](double _x, double _y) {return EDO({_x, _y});}, {a, b}, y0, 0.001);
+	auto solNum = euler_EDO([EDO](double _x, double _y) {return EDO({_x, _y});}, {a, b}, y0, STEP);
 	
 	printf("Gerando graficos.\n");
 	
-	gerar_grafico("C:\\dados\\solNum.dat", [solNum](std::vector<double> _arg) {return solNum(_arg.front());}, std::pair(a, b), 0.001);
-	gerar_grafico("C:\\dados\\solAna.dat", solAna, std::pair(a, b), 0.001);
-	gerar_grafico("C:\\dados\\erro.dat", [solNum, solAna] (std::vector<double> _arg) {return solNum(_arg.front()) - solAna(_arg);}, std::pair(a, b), 0.001);
+	gerar_grafico("C:\\dados\\solNum.dat", [solNum](std::vector<double> _arg) {return solNum(_arg.front());}, std::pair(a, b), STEP);
+	gerar_grafico("C:\\dados\\solAna.dat", solAna, std::pair(a, b), STEP);
+	gerar_grafico("C:\\dados\\erro.dat", [solNum, solAna] (std::vector<double> _arg) {return solNum(_arg.front()) - solAna(_arg);}, std::pair(a, b), STEP);
 	
 	printf("Graficos gerados.\n");
 	
