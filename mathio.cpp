@@ -72,14 +72,14 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 	}
 	std::cout << ") = ";
 	
-	while(std::cin.peek() != '\n') {
-		// Descarta espacos: 
+	std::cin >> _entrada;
+	
+	do {
+		// Descarta espacos:
 		if(std::cin.peek() == ' ') {
 			std::cin.get();
 			continue;
 		}
-		
-		std::cin >> _entrada;
 		
 		// Verifica se o valor inserido e um numero:
 		if(isdigit(_entrada[0]) || (_entrada[0] == '-' && isdigit(_entrada[1]))) {
@@ -110,9 +110,13 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 				}
 			}
 		}
+		
+		if(std::cin.peek() == '\n') break;
+		std::cin >> _entrada;
+		
 		// Verifica se a ultima operacao nao utiliza elementos que nao estao na stack:
 		if(_prof <= 0) return nullptr;
-	}
+	} while(std::cin.peek() != '\n');
 	
 	// Funcao lambda que calcula a funcao no ponto definido por _args:
 	return [_funcao](std::vector<double> _args) {
