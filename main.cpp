@@ -4,16 +4,25 @@
 #include "SEL.hpp"
 #include "zeros.hpp"
 
-SEL sel = {{1, 2, 3, 14}, {5, 7, 11, 52}, {13, 17, 23, 116}};
-
 int main() {
-	auto solucoes = gauss_sel(sel);
+	SEL teste(3);
 	
-	printf("Solucoes:\n");
-	for(auto i = 0; i != solucoes.size(); i++) {
-		printf("x%i = %lf\n", i, solucoes[i]);
+	teste.set_equacoes({{{1, 5, 1}, 14}, {{3, 1, 1}, 8}, {{1, 1, 2}, 9}});
+	
+	teste.mostrar_SEL();
+	
+	teste.tornar_principal_dominante();
+	
+	//auto s = teste.gauss_direto();
+	//auto s = teste.pivoteamento_completo();
+	//auto s = teste.gauss_jacobi(1E-15);
+	auto s = teste.gauss_seidel(1E-15);
+	
+	for(auto i: s) {
+		std::cout << i << " ";
 		
 	}
+	std::cout << "\n";
 	
 	return 0;
 }
