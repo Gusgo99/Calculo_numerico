@@ -1,28 +1,21 @@
 #include <iostream>
 #include <cmath>
 
-#include "SEL.hpp"
-#include "zeros.hpp"
+#include "interpolacao.hpp"
 
 int main() {
-	SEL teste(3);
+	std::vector<std::pair<double, double>> pontos = {{-1, 2}, {0, 3}, {1, 13}, {2, 13}, {3, 14}, {4, 14}, {5, 14}, {6, 15}, {7, 20}, {8, 22}};
 	
-	teste.set_equacoes({{{1, 5, 1}, 14}, {{3, 1, 1}, 8}, {{1, 1, 2}, 9}});
+	interpol_poli pol;
 	
-	teste.mostrar_SEL();
+	pol.forma_lagrange(pontos);
 	
-	teste.tornar_principal_dominante();
+	pol.print_coefs();
 	
-	//auto s = teste.gauss_direto();
-	//auto s = teste.pivoteamento_completo();
-	//auto s = teste.gauss_jacobi(1E-15);
-	auto s = teste.gauss_seidel(1E-15);
-	
-	for(auto i: s) {
-		std::cout << i << " ";
+	for(auto i: pontos) {
+		std::cout << "f(" << i.first << ") = " << pol(i.first) << std::endl;
 		
 	}
-	std::cout << "\n";
 	
 	return 0;
 }
