@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 
+#include <thread>
+
 #include "interpolacao.hpp"
 
 int main() {
@@ -8,7 +10,7 @@ int main() {
 	
 	interpol_poli pol;
 	
-	pol.forma_lagrange(pontos);
+	pol.metodo_newton(pontos);
 	
 	pol.print_coefs();
 	
@@ -16,6 +18,8 @@ int main() {
 		std::cout << "f(" << i.first << ") = " << pol(i.first) << std::endl;
 		
 	}
+	
+	std::cout << "Nucleos: " << std::thread::hardware_concurrency() << std::endl;
 	
 	return 0;
 }

@@ -6,7 +6,7 @@
 std::list<intervalo_t> encontra_intervalos(double (*f)(double), intervalo_t _I, double _step) {
 	std::list<intervalo_t> intZeros;
 	
-	for(auto i = _I.first; i < _I.second; i += _step) {
+	for(size_t i = _I.first; i < _I.second; i += _step) {
 		// Verifica se a funcao troca de sinal no interior do intervalo [i, i + _step]
 		if((f(i) * f(i + _step)) < 0) {
 			// Se ocorre troca de sinal, considera que o intervalo possui zero
