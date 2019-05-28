@@ -104,57 +104,55 @@ void interpol_poli::metodo_newton(std::vector<std::pair<double, double>> &_ponto
 	// Calcula diferencas divididas
 	auto _difDiv = calcular_dif_div(_pontos);
 	
-	std::list<size_t> _pos;
+	std::pair<size_t, size_t> _pos = {0, 0};
 	std::vector<double> _pol = {1};
 	
 	// Calcula combinacao linear dos polinomios
 	for(size_t i = 0; i != _pontos.size(); i++) {
-		_pos.push_back(i);
 		for(size_t j = 0; j != _pol.size(); j++) {
 			coefs[j] += _difDiv[_pos] * _pol[j];
 			
 		}
 		mult_pols(_pol, {-_pontos[i].first, 1});
+		_pos.second++;
 	}
 	
 	return;
 }
 
-std::map<std::list<size_t>, double> interpol_poli::calcular_dif_div(const std::vector<std::pair<double, double>> &_pontos) {
-	std::map<std::list<size_t>, double> _difDiv;
+std::map<std::pair<size_t, size_t>, double> interpol_poli::calcular_dif_div(const std::vector<std::pair<double, double>> &_pontos) {
+	std::map<std::pair<size_t, size_t>, double> _difDiv;
 	
 	// Calcula diferencas divididas:
 	// Insere primeira coluna (Valores de y)
 	for(size_t i = 0; i != _pontos.size(); i++) {
-		_difDiv[{i}] = _pontos[i].second;
+		_difDiv[{i, i}] = _pontos[i].second;
 		
 	}
 	
-	// Calcula proximas colunas
-	std::list<size_t> _modelo = {0};
 	// Cada iteracao calcula uma coluna
 	for(size_t i = 1; i != _pontos.size(); i++) {
-		// As listas indicam a diferenca dividida no mapa
-		_modelo.push_back(i);
-		auto _pos = _modelo;
-		auto _acima = _modelo;
+		//_modelo.push_back(i);
+		std::pair<size_t, size_t> _pos = {0, i};
+		auto _acima = _pos;
 		// Se a posicao for [x0, x1... xn], entao a posicao a esquerda acima sera [x0, x1... xn-1]
-		_acima.pop_front();
-		auto _abaixo = _modelo;
+		_acima.second--;
+		//_acima.pop_front();
+		auto _abaixo = _pos;
 		// Se a posicao for [x0, x1... xn], entao a posicao a esquerda abaixo sera [x1, x2... xn]
-		_abaixo.pop_back();
+		_abaixo.first++;
 		// Calcula cada diferenca dividida da coluna atual
 		for(size_t j = i; j != _pontos.size(); j++) {
-			// f[x0, x1..., xn] = (f[x1, x2... xn] - f[x0, x1... xn-1]) / (xn - x1)
-			_difDiv[_pos] = (_difDiv[_abaixo] - _difDiv[_acima]) / (_pontos[_pos.front()].first - _pontos[_pos.back()].first);
+			// f[x0, x1..., xn] = (f[x1, x2... xn] - f[x0, x1... xn-1]) / (xn - x0)
+			_difDiv[_pos] = (_difDiv[_abaixo] - _difDiv[_acima]) / (_pontos[_pos.second].first - _pontos[_pos.first].first);
 			// Atualiza a posicao para a proxima linha (Se a linha atual e [x1, x2... xn] a proxima sera [x2, x3... xn+1]
-			_pos.push_back(_pos.back() + 1);
-			_pos.pop_front();
+			_pos.first++;
+			_pos.second++;
 			// Atualiza o valor superior e inferior, semelhante ao caso acima
-			_acima.push_back(_acima.back() + 1);
-			_acima.pop_front();
-			_abaixo.push_back(_abaixo.back() + 1);
-			_abaixo.pop_front();
+			_acima.first++;
+			_acima.second++;
+			_abaixo.first++;
+			_abaixo.second++;
 			
 		}
 	}

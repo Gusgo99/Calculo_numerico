@@ -15,7 +15,7 @@ class interpol_poli {
 	private:
 		void ordenar_pontos(std::vector<std::pair<double, double>> &_pontos);
 		void verifica_repeticao(const std::vector<std::pair<double, double>> &_pontos);
-		std::map<std::list<size_t>, double> calcular_dif_div(const std::vector<std::pair<double, double>> &_pontos);
+		std::map<std::pair<size_t, size_t>, double> calcular_dif_div(const std::vector<std::pair<double, double>> &_pontos);
 		// Multiplica um polinomio _a de grau n com um polinomio _b de grau 1
 		void mult_pols(std::vector<double> &_a, const std::vector<double> &_b);
 		void soma_pols(std::vector<double> &_a, const std::vector<double> &_b);

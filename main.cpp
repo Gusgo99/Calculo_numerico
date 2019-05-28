@@ -19,7 +19,5 @@ int main() {
 		
 	}
 	
-	std::cout << "Nucleos: " << std::thread::hardware_concurrency() << std::endl;
-	
 	return 0;
 }
