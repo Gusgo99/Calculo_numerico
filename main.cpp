@@ -10,7 +10,7 @@ int main() {
 	
 	interpol_poli pol;
 	
-	pol.metodo_newton(pontos);
+	pol.forma_lagrange(pontos);
 	
 	pol.print_coefs();
 	
