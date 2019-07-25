@@ -59,11 +59,10 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 	fRPN_t _funcao;					// Descricao da funcao em RPN
 	tipoDado_u _temp;
 	std::string _entrada;
-	int _numArgs = _vars.size();
 	int _prof = 0;					// Acumula quantos elementos a stack possui
 	
 	std::cout << "f(";
-	for(auto i = 0; i != _vars.size(); i++) {
+	for(size_t i = 0; i != _vars.size(); i++) {
 		std::cout << _vars[i];
 		if(i != (_vars.size() - 1)) {
 			std::cout << ", ";
@@ -73,6 +72,7 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 	std::cout << ") = ";
 	
 	// Solucao temporaria:
+#warning Arrumar:
 	fflush(stdin);
 	
 	while(std::cin.peek() != '\n') {
@@ -93,7 +93,7 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 		}
 		else {
 			// Verifica se a entrada analisada e uma operacao:
-			for(auto i = 0; i != OPS.size(); i++) {
+			for(size_t i = 0; i != OPS.size(); i++) {
 				if(_entrada == OPS[i]) {
 					_temp.op = i;
 					_funcao.push(std::pair(OP, _temp));
@@ -103,7 +103,7 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 				}
 			}
 			// Verifica se a entrada analisada e uma variavel:
-			for(auto i = 0; i != _vars.size(); i++) {
+			for(size_t i = 0; i != _vars.size(); i++) {
 				if(_entrada == _vars[i]) {
 					_temp.var = i;
 					_funcao.push(std::pair(VAR, _temp));

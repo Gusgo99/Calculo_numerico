@@ -17,7 +17,8 @@ std::function<double(double)> euler_EDO(std::function<double(double, double)> f,
 	
 	return [=](double _x) -> double {
 		if((_x < _I.first) || (_x > _I.second)) {
-			return nan(nullptr);
+#warning TODO: Implementar classe para exception
+			throw -1;
 			
 		}
 		_x -= _I.first;

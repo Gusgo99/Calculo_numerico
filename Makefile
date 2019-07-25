@@ -17,7 +17,12 @@ INCHEADERS	:= -iquote$(INCDIR)
 # Debug
 
 # Atualiza executavel de debug a partir dos object files
-$(BINDIR)/debug/calculo_numerico.exe: $(OBJDIR)/debug/main.o $(OBJDIR)/debug/zeros.o $(OBJDIR)/debug/interpolacao.o $(OBJDIR)/debug/SEL.o
+$(BINDIR)/debug/calculo_numerico.exe: 	$(OBJDIR)/debug/main.o				\
+										$(OBJDIR)/debug/zeros.o				\
+										$(OBJDIR)/debug/interpolacao.o		\
+										$(OBJDIR)/debug/SEL.o				\
+										$(OBJDIR)/debug/EDO.o				\
+										$(OBJDIR)/debug/mathio.o
 	$(CC) $(OBJDIR)/debug/*.o -o $(BINDIR)/debug/calculo_numerico.exe -O0
 
 # Atualiza object files de debug
@@ -32,12 +37,23 @@ $(OBJDIR)/debug/interpolacao.o: $(INCDIR)/interpolacao.hpp $(SRCDIR)/interpolaca
 	
 $(OBJDIR)/debug/SEL.o: $(INCDIR)/SEL.hpp $(SRCDIR)/SEL.cpp
 	$(CC) -std=$(STD) $(SRCDIR)/SEL.cpp -c -o $(OBJDIR)/debug/SEL.o $(INCHEADERS) $(CFLAGS) $(CPPFLAGS)
+	
+$(OBJDIR)/debug/EDO.o: $(INCDIR)/EDO.hpp $(SRCDIR)/EDO.cpp
+	$(CC) -std=$(STD) $(SRCDIR)/EDO.cpp -c -o $(OBJDIR)/debug/EDO.o $(INCHEADERS) $(CFLAGS) $(CPPFLAGS)
+	
+$(OBJDIR)/debug/mathio.o: $(INCDIR)/mathio.hpp $(SRCDIR)/mathio.cpp
+	$(CC) -std=$(STD) $(SRCDIR)/mathio.cpp -c -o $(OBJDIR)/debug/mathio.o $(INCHEADERS) $(CFLAGS) $(CPPFLAGS)
 
 ##################################################################################################################################################
 # Prod
 
 # Atualiza executavel de prod a partir dos object files
-$(BINDIR)/prod/calculo_numerico.exe: $(OBJDIR)/prod/main.o $(OBJDIR)/prod/zeros.o $(OBJDIR)/prod/interpolacao.o $(OBJDIR)/prod/SEL.o
+$(BINDIR)/prod/calculo_numerico.exe: 	$(OBJDIR)/prod/main.o				\
+										$(OBJDIR)/prod/zeros.o				\
+										$(OBJDIR)/prod/interpolacao.o		\
+										$(OBJDIR)/prod/SEL.o				\
+										$(OBJDIR)/prod/EDO.o				\
+										$(OBJDIR)/prod/mathio.o
 	$(CC) $(OBJDIR)/prod/*.o -o $(BINDIR)/prod/calculo_numerico.exe -O3
 
 # Atualiza object files de prod
@@ -52,6 +68,12 @@ $(OBJDIR)/prod/interpolacao.o: $(INCDIR)/interpolacao.hpp $(SRCDIR)/interpolacao
 	
 $(OBJDIR)/prod/SEL.o: $(INCDIR)/SEL.hpp $(SRCDIR)/SEL.cpp
 	$(CC) -std=$(STD) $(SRCDIR)/SEL.cpp -c -o $(OBJDIR)/prod/SEL.o $(INCHEADERS) -O3
+	
+$(OBJDIR)/prod/EDO.o: $(INCDIR)/EDO.hpp $(SRCDIR)/EDO.cpp
+	$(CC) -std=$(STD) $(SRCDIR)/EDO.cpp -c -o $(OBJDIR)/prod/EDO.o $(INCHEADERS) -O3
+	
+$(OBJDIR)/prod/mathio.o: $(INCDOR)/mathio.hpp $(SRCDIR)/mathio.cpp
+	$(CC) -std=$(STD) $(SRCDIR)/mathio.cpp -c -o $(OBJDIR)/prod/mathio.o $(INCHEADERS) -O3
 
 .PHONY: clean cleaner prod disassemble prodDisassemble
 
