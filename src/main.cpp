@@ -1,21 +1,25 @@
 #include <iostream>
 #include <cmath>
 
-#include "interpolacao.hpp"
+#include "mathio.hpp"
 
 int main() {
-	std::vector<std::pair<double, double>> pontos = {{-1, 2}, {0, 3}, {1, 13}, {2, 13}, {3, 14}, {4, 14}, {5, 14}, {6, 15}, {7, 20}, {8, 22}};
+	std::cout << "f(x) = ";
+	auto f = ler_funcao({"x"});
+	std::cout << "g(x) = ";
+	auto g = ler_funcao({"x"});
 	
-	interpol_poli pol;
+	if(f != nullptr) {
+		gerar_grafico("C:\\dados\\func.dat", f, {-1, 1}, 1E-2);
 	
-	pol.metodo_newton(pontos);
+	}
 	
-	pol.print_coefs();
-	
-	for(auto i: pontos) {
-		std::cout << "f(" << i.first << ") = " << pol(i.first) << std::endl;
+	if(g != nullptr) {
+		gerar_grafico("C:\\dados\\gunc.dat", g, {-1, 1}, 1E-2);
 		
 	}
+	
+	std::cout << "Graficos gerados\n";
 	
 	return 0;
 }

@@ -61,21 +61,12 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 	std::string _entrada;
 	int _prof = 0;					// Acumula quantos elementos a stack possui
 	
-	std::cout << "f(";
-	for(size_t i = 0; i != _vars.size(); i++) {
-		std::cout << _vars[i];
-		if(i != (_vars.size() - 1)) {
-			std::cout << ", ";
-			
-		}
+	while(std::cin.rdbuf()->in_avail() != 0) {
+		std::cin.get();
+		
 	}
-	std::cout << ") = ";
-	
-	// Solucao temporaria:
-#warning Arrumar:
-	fflush(stdin);
-	
-	while(std::cin.peek() != '\n') {
+
+	do {
 		// Descarta espacos: 
 		if(std::cin.peek() == ' ') {
 			std::cin.get();
@@ -115,7 +106,10 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 		}
 		// Verifica se a ultima operacao nao utiliza elementos que nao estao na stack:
 		if(_prof <= 0) return nullptr;
-	}
+		
+	}while(std::cin.peek() != '\n');
+	
+	if(_funcao.size() == 0) return nullptr;
 	
 	// Funcao lambda que calcula a funcao no ponto definido por _args:
 	return [_funcao](std::vector<double> _args) {
@@ -123,7 +117,7 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 	};
 }
 
-double executar_operacoes(fRPN_t _RPN, std::vector<double> _args) {
+inline double executar_operacoes(fRPN_t _RPN, std::vector<double> _args) {
 	std::stack<double> _pilha;
 	
 	// Executa cada passo descrito por _RPN:
@@ -317,7 +311,7 @@ void operacao_stack(std::stack<double> *_pilha, uint64_t _op) {
 	return;
 }
 
-int gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>::iterator _inicio, std::list<std::pair<double, double>>::iterator _fim) {
+void gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>::iterator _inicio, std::list<std::pair<double, double>>::iterator _fim) {
 	std::ofstream _arquivo(_nomeArquivo);
 	
 	if(_arquivo.is_open()) {
@@ -328,14 +322,15 @@ int gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>
 		}
 	}
 	else {
-		return EXIT_FAILURE;
+#warning TODO: Fazer classe para exceptions
+		throw -1;
 		
 	}
 	
-	return EXIT_SUCCESS;
+	return;
 }
 
-int gerar_grafico(std::string _nomeArquivo, std::function<double(std::vector<double>)> f, intervalo_t _I, double _step) {
+void gerar_grafico(std::string _nomeArquivo, std::function<double(std::vector<double>)> f, intervalo_t _I, double _step) {
 	std::list<std::pair<double, double>> _lista;
 	
 	for(auto i = _I.first; i <= _I.second; i += _step) {
@@ -343,5 +338,7 @@ int gerar_grafico(std::string _nomeArquivo, std::function<double(std::vector<dou
 		
 	}
 	
-	return gerar_grafico(_nomeArquivo, _lista.begin(), _lista.end());
+	gerar_grafico(_nomeArquivo, _lista.begin(), _lista.end());
+	
+	return;
 }

@@ -24,9 +24,9 @@ std::function<double(std::vector<double>)> ler_funcao(std::vector<std::string> _
 //															# # # Saida de dados # # #
 
 // Gera arquivo contendo dados para fazer grafico:
-int gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>::iterator _inicio, std::list<std::pair<double, double>>::iterator _fim);
+void gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>>::iterator _inicio, std::list<std::pair<double, double>>::iterator _fim);
 // Overload para gerar grafico de uma funcao em um intervalo _I e com um passo _passo
-int gerar_grafico(std::string _nomeArquivo, std::function<double(std::vector<double>)> f, intervalo_t _I, double _step);
+void gerar_grafico(std::string _nomeArquivo, std::function<double(std::vector<double>)> f, intervalo_t _I, double _step);
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Pode-se desenhar o grafico gerado pela funcao com os comandos em R:
  * > dados <- read.table("Local do arquivo")
