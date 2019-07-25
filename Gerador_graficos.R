@@ -1,0 +1,7 @@
+solNum <- read.table("C:\\dados\\solNum.dat")
+solAna <- read.table("C:\\dados\\solAna.dat")
+erro <- read.table("C:\\dados\\erro.dat")
+par(mfrow = c(2, 1))
+plot(solNum, type = 'l', col = 'blue', xlab = 't', ylab = 'y = y(t)', main = 'Solução')
+lines(solAna, col = 'red')
+plot(erro, type = 'l', main = 'Erro', xlab = 't', ylab = 'E(t)')

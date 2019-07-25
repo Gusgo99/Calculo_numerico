@@ -3,7 +3,7 @@
 
 #include "zeros.hpp"
 
-std::list<intervalo_t> encontra_intervalos(double (*f)(double), intervalo_t _I, double _step) {
+std::list<intervalo_t> encontra_intervalos(std::function<double(double)> f, intervalo_t _I, double _step) {
 	std::list<intervalo_t> intZeros;
 	
 	for(auto i = _I.first; i < _I.second; i += _step) {
@@ -23,7 +23,7 @@ std::list<intervalo_t> encontra_intervalos(double (*f)(double), intervalo_t _I, 
 	return intZeros;
 }
 
-double bisseccao(double (*f)(double), intervalo_t _I, double _erro) {
+double bisseccao(std::function<double(double)> f, intervalo_t _I, double _erro) {
 	double _med = (_I.first + _I.second) / 2;
 	_erro = fabs(_erro);
 	uint32_t count = 0;
@@ -55,7 +55,7 @@ double bisseccao(double (*f)(double), intervalo_t _I, double _erro) {
 	return _med;
 }
 
-double ponto_fixo(double (*f)(double), double (*fi)(double), intervalo_t _I, double _erro) {
+double ponto_fixo(std::function<double(double)> f, std::function<double(double)> fi, intervalo_t _I, double _erro) {
 	double _xn = 0.00, _xn1 = 0.00;
 	uint32_t count = 0;
 	
@@ -88,7 +88,7 @@ double ponto_fixo(double (*f)(double), double (*fi)(double), intervalo_t _I, dou
 	return _xn1;
 }
 
-double tangente(double (*f)(double), double (*dfdx)(double), intervalo_t _I, double _erro) {
+double tangente(std::function<double(double)> f, std::function<double(double)> dfdx, intervalo_t _I, double _erro) {
 	double _xn, _xn1;
 	uint32_t count = 0;
 	
@@ -125,7 +125,7 @@ double tangente(double (*f)(double), double (*dfdx)(double), intervalo_t _I, dou
 	return _xn1;
 }
 
-double secante(double (*f)(double), intervalo_t _I, double _erro) {
+double secante(std::function<double(double)> f, intervalo_t _I, double _erro) {
 	std::array<double, 3> _xn = {_I.first, _I.second, 0};
 	uint32_t count = 0;
 	auto pos = 2;
