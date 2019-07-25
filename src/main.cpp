@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cmath>
 
-#include <thread>
-
 #include "interpolacao.hpp"
 
 int main() {
@@ -10,7 +8,7 @@ int main() {
 	
 	interpol_poli pol;
 	
-	pol.forma_lagrange(pontos);
+	pol.metodo_newton(pontos);
 	
 	pol.print_coefs();
 	
