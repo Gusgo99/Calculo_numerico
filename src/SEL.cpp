@@ -4,6 +4,18 @@
 
 #include "SEL.hpp"
 
+class bad_equacao : public std::exception {
+	public:
+		const char* what() const noexcept {return "Tentativa de acesso a equacao nao existente\n";};
+	
+};
+
+class bad_escalonamento : public std::exception {
+	public:
+		const char* what() const noexcept {return "A funcao resolve_escalonado recebeu um sistema escalonado um numero errado de equacoes\n";};
+	
+};
+
 SEL::SEL(const size_t _vars) {
 	vars = _vars;
 	
@@ -45,18 +57,16 @@ void SEL::receber_SEL() {
 	return;
 }
 
-void SEL::set_equacoes(const std::vector<std::pair<std::vector<double>, double>> &_equacoes) {
+bool SEL::set_equacoes(const std::vector<std::pair<std::vector<double>, double>> &_equacoes) {
 	for(auto i: _equacoes) {
 		// Se o sistema recebido possuir um numero errado de equacoes ou coeficientes, da um throw
 		if(i.first.size() != vars) {
-#warning TODO: Fazer classe para exceptions
-			throw -1;
-			
+			return false;
 		}
 	}
 	equacoes = _equacoes;
 	
-	return;
+	return true;
 }
 
 std::vector<std::pair<std::vector<double>, double>> SEL::get_equacoes() {
@@ -87,9 +97,7 @@ void SEL::soma_linhas(const size_t _linha1, const size_t _linha2, const double _
 		
 	}
 	else {
-		// Da um throw se as linhas nao estiverem no SEL
-#warning TODO: Fazer classe para exceptions
-		throw -1;
+		throw bad_equacao();
 		
 	}
 	
@@ -210,8 +218,7 @@ std::vector<double> SEL::resolve_escalonado(std::stack<std::pair<std::vector<dou
 	
 	// Verifica se o numero de equacoes e variaveis estao corretos
 	if((_sistema.size() != vars) || (_var.size() != vars)) {
-#warning TODO: Fazer classe para exceptions
-		throw -1;
+		throw bad_escalonamento();
 		
 	}
 	

@@ -1,7 +1,10 @@
-#include <array>
 #include <cmath>
 
 #include "zeros.hpp"
+
+#ifdef COMPARAR
+#include <iostream>
+#endif
 
 std::list<intervalo_t> encontra_intervalos(std::function<double(double)> f, intervalo_t _I, double _step) {
 	std::list<intervalo_t> intZeros;
@@ -43,13 +46,13 @@ double bisseccao(std::function<double(double)> f, intervalo_t _I, double _erro) 
 		
 		_med = (_I.second + _I.first) / 2;
 		
-		// Termina procura se o programa passar do limite de iteracoes
-		if(++count > LIMIT) break;
+		// Termina procura se o programa passar do LIMIT_ZEROSe de iteracoes
+		if(++count > LIMIT_ZEROS) break;
 		
 	}
 	
 #ifdef COMPARAR
-	printf("%i iteracoes pelo metodo da bisseccao\n", count);
+	std::cout << count << " iteracoes pelo metodo da bisseccao\n";
 #endif
 	
 	return _med;
@@ -77,12 +80,12 @@ double ponto_fixo(std::function<double(double)> f, std::function<double(double)>
 		_xn = _xn1;
 		_xn1 = fi(_xn);
 		
-		if(++count > LIMIT) break;
+		if(++count > LIMIT_ZEROS) break;
 		
 	} while(fabs(_xn1 - _xn) > _erro);
 	
 #ifdef COMPARAR
-	printf("%i iteracoes pelo metodo do ponto fixo\n", count);
+	std::cout << count << " iteracoes pelo metodo do ponto fixo\n";
 #endif
 	
 	return _xn1;
@@ -114,12 +117,12 @@ double tangente(std::function<double(double)> f, std::function<double(double)> d
 		_xn = _xn1;
 		_xn1 = fit(_xn);
 		
-		if(++count > LIMIT) break;
+		if(++count > LIMIT_ZEROS) break;
 		
 	} while(fabs(_xn1 - _xn) > _erro);
 	
 #ifdef COMPARAR
-	printf("%i iteracoes pelo metodo da tangente\n", count);
+	std::cout << count << " iteracoes pelo metodo da tangente\n";
 #endif
 	
 	return _xn1;
@@ -139,12 +142,12 @@ double secante(std::function<double(double)> f, intervalo_t _I, double _erro) {
 	for(pos = 2; fabs(_xn[(pos + 1) % 3] - _xn[(pos + 2) % 3]) > _erro; pos++) {
 		_xn[pos % 3] = fit(_xn[(pos + 1) % 3], _xn[(pos + 2) % 3]);
 		
-		if(++count > LIMIT) break;
+		if(++count > LIMIT_ZEROS) break;
 		
 	}
 	
 #ifdef COMPARAR
-	printf("%i iteracoes pelo metodo da secante\n", count);
+	std::cout << count << " iteracoes pelo metodo da secante\n";
 #endif
 	
 	return _xn[(pos + 2) % 3];

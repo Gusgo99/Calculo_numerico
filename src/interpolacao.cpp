@@ -1,8 +1,19 @@
 #include <algorithm>
 #include <iostream>
-#include <utility>
 
 #include "interpolacao.hpp"
+
+class bad_ponto : public std::exception {
+	public:
+		const char* what() const noexcept {return "Dois pontos com a mesma coordenada x foram encontradas\n";};
+	
+};
+
+class bad_dominio : public std::exception {
+	public:
+		const char* what() const noexcept {return "Tentativa de calcular o polinomio interpolador fora do intervalo de pontos dados";};
+	
+};
 
 void interpol_poli::ordenar_pontos(std::vector<std::pair<double, double>> &_pontos) {
 	std::sort(_pontos.begin(), _pontos.end(), [](std::pair<double, double> _a, std::pair<double, double> _b) {return _a.first < _b.first;});
@@ -12,8 +23,7 @@ void interpol_poli::ordenar_pontos(std::vector<std::pair<double, double>> &_pont
 
 void interpol_poli::verifica_repeticao(const std::vector<std::pair<double, double>> &_pontos) {
 	if(std::adjacent_find(_pontos.begin(), _pontos.end(), [](std::pair<double, double> _a, std::pair<double, double> _b) {return _a.first == _b.first;}) != _pontos.end()) {
-#warning TODO: Criar classe para exception
-		throw -1;
+		throw bad_ponto();
 		
 	}
 	
@@ -165,8 +175,7 @@ double interpol_poli::operator()(double _x) {
 	double _pot = 1;
 	
 	if((_x < intervalo.first) || (_x > intervalo.second)) {
-#warning TODO: Implementar classe para exception
-		throw -1;
+		throw bad_dominio();
 		
 	}
 	

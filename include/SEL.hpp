@@ -1,11 +1,10 @@
 #ifndef SEL_HPP
 #define SEL_HPP
 
-#include <array>
 #include <stack>
 #include <vector>
 
-const uint32_t LIMIT_SEL = 1000;
+const auto LIMIT_SEL = 1000;
 
 class SEL {
 	public:
@@ -16,7 +15,7 @@ class SEL {
 		// Recebe o SEL pela stdin
 		void receber_SEL();
 		// Recebe um vetor de equacoes, sendo o membro first um vetor com os coeficientes e o second os termos independentes
-		void set_equacoes(const std::vector<std::pair<std::vector<double>, double>> &_equacoes);
+		bool set_equacoes(const std::vector<std::pair<std::vector<double>, double>> &_equacoes);
 		// Retorna o sistema de equacoes no mesmo formato que o set_equacoes
 		std::vector<std::pair<std::vector<double>, double>> get_equacoes();
 		// Recebe uma solucao estimada e retorna o residuo baseado no sistema recebido pela classe

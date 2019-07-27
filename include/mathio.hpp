@@ -2,7 +2,6 @@
 #define MATHIO_HPP
 
 #include <functional>
-#include <iterator>
 #include <list>
 #include <string>
 #include <vector>

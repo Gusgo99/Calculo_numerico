@@ -1,9 +1,9 @@
 #ifndef INTERPOLACAO_HPP
 #define INTERPOLACAO_HPP
 
-#include <vector>
 #include <map>
-#include <list>
+#include <utility>
+#include <vector>
 
 // Classe para interpolacao polinomial
 class interpol_poli {

@@ -1,15 +1,19 @@
 #include <cmath>
-#include <cstdarg>
+#include <exception>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <queue>
 #include <stack>
-#include <utility>
-#include <fstream>
-
-#include <list>
 
 #include "mathio.hpp"
+
+// Exception para Falha de Abertura de arquivo
+class bad_arquivo : public std::exception {
+	public:
+		const char* what() const noexcept {return "Erro ao abrir arquivo\n";}
+	
+};
 
 // Constantes matematicas
 const double PI = acos(-1);
@@ -322,8 +326,7 @@ void gerar_grafico(std::string _nomeArquivo, std::list<std::pair<double, double>
 		}
 	}
 	else {
-#warning TODO: Fazer classe para exceptions
-		throw -1;
+		throw bad_arquivo();
 		
 	}
 	

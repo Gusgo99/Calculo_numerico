@@ -1,7 +1,9 @@
-#include <iostream>
-#include <cmath>
 #include <vector>
-#include <functional>
+
+class bad_dominio : public std::exception {
+	const char* what() const noexcept {return "Tentativa de calcular o resultado da EDO em um ponto fora do intervalo calculado\n";};
+	
+};
 
 #include "EDO.hpp"
 
@@ -17,8 +19,7 @@ std::function<double(double)> euler_EDO(std::function<double(double, double)> f,
 	
 	return [=](double _x) -> double {
 		if((_x < _I.first) || (_x > _I.second)) {
-#warning TODO: Implementar classe para exception
-			throw -1;
+			throw bad_dominio();
 			
 		}
 		_x -= _I.first;
