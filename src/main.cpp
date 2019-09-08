@@ -1,25 +1,15 @@
 #include <iostream>
 #include <cmath>
 
-#include "mathio.hpp"
+#include "integracao.hpp"
+
+double func(double _x) {
+	return cos(_x) - _x;
+}
 
 int main() {
-	std::cout << "f(x) = ";
-	auto f = ler_funcao({"x"});
-	std::cout << "g(x) = ";
-	auto g = ler_funcao({"x"});
-	
-	if(f != nullptr) {
-		gerar_grafico("C:\\dados\\func.dat", f, {-1, 1}, 1E-2);
-	
-	}
-	
-	if(g != nullptr) {
-		gerar_grafico("C:\\dados\\gunc.dat", g, {-1, 1}, 1E-2);
-		
-	}
-	
-	std::cout << "Graficos gerados\n";
+	std::cout << "Integral pelo metodo do trapezio: " << trapezio(func, {0, 10}, 100) << std::endl;
+	std::cout << "Integral pela regra de um terco de simpson: " << terco_simpson(func, {0, 10}, 100) << std::endl;
 	
 	return 0;
 }
